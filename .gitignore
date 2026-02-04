@@ -1,0 +1,6 @@
+/.vscode/*
+/build/*
+/target/*
+/interface/*
+/gdb_helper.tcl
+/memhelper.tcl

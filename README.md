@@ -1,10 +1,3 @@
-# STM32_HAL_NeoPixel
-
-A lightweight, resource saving driver for SK6812 NeoPixels using STM32 HAL, Timer PWM and DMA. Implemented on STM32F042K6 (NUCLEO-F042K6) using TIM2, Channel 1 and DMA.
-
-Blog article and tutorial: https://www.thevfdcollective.com/blog/stm32-and-sk6812-rgbw-led
-![Demo with 8 SK6812 NeoPixel LEDs](/blog/demo.jpg)
-
-### Changelog
-07-10-2020:
-- Added support for WS2812B NeoPixel LEDs. Change to WS2812B by changing the parameter NUM_BPP from (4) to (3) in sk6812.c
+# STM32F401_WS2812B
+Forked from https://github.com/hey-frnk/STM32_HAL_NeoPixel
+Tested and working on STM32F401 Black Pill, will likely also work on STM32F411 versions but not tested
