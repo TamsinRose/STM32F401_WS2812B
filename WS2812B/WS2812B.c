@@ -1,11 +1,18 @@
 
-// Peripheral usage
-#include "stm32f4xx_hal.h"
-extern TIM_HandleTypeDef htim1;
-extern DMA_HandleTypeDef hdma_tim1_ch1;
-
 #include "WS2812B.h"
 
+// Peripheral usage
+#include "stm32f4xx_hal.h"
+
+// Change the five lines below to suit harware setup if different
+extern TIM_HandleTypeDef htim1;
+extern DMA_HandleTypeDef hdma_tim1_ch1;
+#define TIMER_CHANEL TIM_CHANNEL_1
+#define TIM_Handle htim1
+#define DMA_Handle hdma_tim1_ch1
+
+
+// Uncomment the approriate lines to suit clock speed
 // #define PWM_HI (38) // for 48MHz (clock counter period 60)
 // #define PWM_LO (19) // for 48MHz (clock counter period 60)
 // #define PWM_HI (58) // for 72MHz (clock counter period 90)
@@ -24,7 +31,7 @@ extern DMA_HandleTypeDef hdma_tim1_ch1;
 #define NUM_PIXELS (12)
 #define NUM_BYTES (NUM_BPP * NUM_PIXELS)
 
-#define TIMER_CHANEL TIM_CHANNEL_1
+
 
 // LED color buffer
 uint8_t rgb_arr[NUM_BYTES] = { 0 };
@@ -102,11 +109,11 @@ uint32_t hsl_to_rgb(uint8_t h, uint8_t s, uint8_t l) {
 
 // Shuttle the data to the LEDs!
 void led_render() {
-    if (wr_buf_p != 0 || hdma_tim1_ch1.State != HAL_DMA_STATE_READY) {
+    if (wr_buf_p != 0 || DMA_Handle.State != HAL_DMA_STATE_READY) {
         // Ongoing transfer, cancel!
         for(uint8_t i = 0; i < WR_BUF_LEN; ++i) wr_buf[i] = 0;
         wr_buf_p = 0;
-        HAL_TIM_PWM_Stop_DMA(&htim1, TIMER_CHANEL);
+        HAL_TIM_PWM_Stop_DMA(&TIM_Handle, TIMER_CHANEL);
         return;
     }
     // Ooh boi the first data buffer half (and the second!)
@@ -132,7 +139,7 @@ void led_render() {
     }
 #endif // End SK6812 WS2812B case differentiation
 
-    HAL_TIM_PWM_Start_DMA(&htim1, TIMER_CHANEL, wr_buf, WR_BUF_LEN);
+    HAL_TIM_PWM_Start_DMA(&TIM_Handle, TIMER_CHANEL, wr_buf, WR_BUF_LEN);
     // HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, DiscontinuousSineCCRValue_Buffer, CCRValue_BufferSize);
     wr_buf_p = 2; // Since we're ready for the next buffer
 }
@@ -195,6 +202,6 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef* htim) {
     else {
         // We're done. Lean back and until next time!
         wr_buf_p = 0;
-        HAL_TIM_PWM_Stop_DMA(&htim1, TIMER_CHANEL);
+        HAL_TIM_PWM_Stop_DMA(&TIM_Handle, TIMER_CHANEL);
     }
 }
