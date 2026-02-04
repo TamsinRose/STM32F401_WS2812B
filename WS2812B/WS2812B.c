@@ -12,10 +12,10 @@ extern DMA_HandleTypeDef hdma_tim1_ch1;
 // #define PWM_LO (29) // for 72MHz (clock counter period 90)
 #define PWM_HI (68) // for 84MHz (clock counter period 105)
 #define PWM_LO (34) // for 84MHz (clock counter period 105)
-// #define PWM_HI (76) // for 96MHz (clock counter period 105)
-// #define PWM_LO (38) // for 96MHz (clock counter period 105)
-// #define PWM_HI (80) // for 100MHz (clock counter period 105)
-// #define PWM_LO (40) // for 100MHz (clock counter period 105)
+// #define PWM_HI (76) // for 96MHz (clock counter period 120)
+// #define PWM_LO (38) // for 96MHz (clock counter period 120)
+// #define PWM_HI (80) // for 100MHz (clock counter period 125)
+// #define PWM_LO (40) // for 100MHz (clock counter period 125)
 
 
 // LED parameters
